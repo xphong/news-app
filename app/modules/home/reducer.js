@@ -2,8 +2,8 @@ import * as home from './constants';
 
 const initialState = {
   isFetching: true,
-  articles:[],
-  hasError:false,
+  articles: [],
+  hasError: false,
   errorMsg: ''
 };
 

@@ -9,12 +9,12 @@ export function getNewsHeadlines(country = 'us') {
       axios.get(url)
       .then(res => res.data)
       .then((data) => {
-        dispatch({type: home.HEADLINES_AVAILABLE, data})
-        resolve()
+        dispatch({type: home.HEADLINES_AVAILABLE, data});
+        resolve();
       })
       .catch(error => {
-        dispatch({type: home.HEADLINES_ERROR, error})
-        reject()
+        dispatch({type: home.HEADLINES_ERROR, error});
+        reject();
       });
     })
   };
