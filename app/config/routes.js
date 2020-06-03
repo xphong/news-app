@@ -14,18 +14,18 @@ export default class extends React.Component {
   }
 
   render() {
-    let navTitleStyle = { fontSize: 15 , fontFamily: "HelveticaNeue-Medium", color: '#1E1611', letterSpacing: 0.4 };
+    let navTitleStyle = { fontSize: 15 , fontFamily: 'HelveticaNeue-Medium', color: '#1E1611', letterSpacing: 0.4 };
 
     if (!this.state.isReady)
     return <AppLoading/>
 
     return (
       <Router>
-        <Stack key="root"
-          navigationBarStyle={{backgroundColor: "#fff"}}
+        <Stack key='root'
+          navigationBarStyle={{backgroundColor: '#fff'}}
           titleStyle={navTitleStyle}
           backButtonTintColor={'#1E1611'}>
-          <Scene key="Main" component={Main} title="Main" initial/>
+          <Scene key='Main' component={Main} title='Main' initial/>
         </Stack>
       </Router>
     )
