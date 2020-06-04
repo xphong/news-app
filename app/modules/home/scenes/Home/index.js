@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, RefreshControl, ActivityIndicator, View, Text, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { actions } from '../../index'
-import { theme } from '../../index'
+import { actions } from '../../index';
+import { theme } from '../../index';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -12,17 +12,17 @@ export default function Home() {
 
   useEffect(() => {
     fetchNewsHeadlines(false);
-  }, [])
+  }, []);
 
   const fetchNewsHeadlines = (refreshing = true) => {
     setRefreshing(refreshing);
 
     dispatch(actions.getNewsHeadlines())
       .finally(() => setRefreshing(false));
-  }
+  };
 
   if (isFetching) {
-    return <ActivityIndicator/>
+    return <ActivityIndicator/>;
   }
 
   return (

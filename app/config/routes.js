@@ -11,9 +11,9 @@ export default class extends React.Component {
           navigationBarStyle={{ backgroundColor: '#fff' }}
           titleStyle={navTitleStyle}
           backButtonTintColor={color.black}>
-            <Scene key='Home' component={Home} title='Headlines' initial/>
+          <Scene key='Home' component={Home} title='Headlines' initial/>
         </Stack>
       </Router>
-    )
+    );
   }
 }
