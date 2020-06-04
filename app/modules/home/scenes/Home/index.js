@@ -12,14 +12,19 @@ export default function Home() {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    fetchNewsHeadlines(false);
+    fetchNewsHeadlines();
   }, []);
 
-  const fetchNewsHeadlines = (refreshing = true) => {
-    setRefreshing(refreshing);
+  useEffect(() => {
+    if (isFetching) {
+      setRefreshing(true);
+    } else {
+      setRefreshing(false);
+    }
+  }, [isFetching]);
 
-    dispatch(actions.getNewsHeadlines())
-      .finally(() => setRefreshing(false));
+  const fetchNewsHeadlines = () => {
+    dispatch(actions.getNewsHeadlines());
   };
 
   if (isFetching) {
