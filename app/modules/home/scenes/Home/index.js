@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, RefreshControl, ActivityIndicator, View, Text, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from '../../index';
 import { theme } from '../../index';
+import NewsItem from '../../components/NewsItem';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -30,11 +31,7 @@ export default function Home() {
       style={{ backgroundColor: theme.color.light_grey }}
       contentContainerStyle={{ paddingVertical: 5 }}
       data={articles}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <Text style={styles.title}>{item.title}</Text>
-        </View>
-      )}
+      renderItem={({ item }) => <NewsItem article={item} />}
       initialNumToRender={5}
       keyExtractor={(item, index) => index.toString() + '_home'}
       refreshControl={
@@ -45,15 +42,3 @@ export default function Home() {
       }/>
   );
 }
-
-const styles = StyleSheet.create({
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 16,
-  },
-});
