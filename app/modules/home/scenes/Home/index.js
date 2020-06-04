@@ -1,70 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, RefreshControl, ActivityIndicator, View, Text, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import { actions as home } from '../../index'
+import { useSelector, useDispatch } from 'react-redux';
+import { actions } from '../../index'
 import { theme } from '../../index'
 
-const { getNewsHeadlines } = home;
+export default function Home() {
+  const dispatch = useDispatch();
+  const isFetching = useSelector(state => state.homeReducer.isFetching);
+  const articles = useSelector(state => state.homeReducer.articles);
+  const [refreshing, setRefreshing] = useState(false);
 
-class Home extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      refreshing: false
-    }
+  useEffect(() => {
+    fetchNewsHeadlines(false);
+  }, [])
+
+  const fetchNewsHeadlines = (refreshing = true) => {
+    setRefreshing(refreshing);
+
+    dispatch(actions.getNewsHeadlines())
+      .finally(() => setRefreshing(false));
   }
 
-  componentDidMount() {
-    this.getNewsHeadlines(false)
+  if (isFetching) {
+    return <ActivityIndicator/>
   }
 
-  getNewsHeadlines = (refreshing = true) => {
-    this.setState({ refreshing });
-
-    this.props.getNewsHeadlines()
-      .finally(() => this.setState({ refreshing: false }));
-  }
-
-  render() {
-    const { articles, isFetching, hasError, errorMsg } = this.props;
-
-    if (isFetching) {
-      return <ActivityIndicator/>
-    }
-
-    return (
-      <FlatList
-        style={{ backgroundColor: theme.color.light_grey }}
-        contentContainerStyle={{ paddingVertical: 5 }}
-        data={articles}
-        extraData={this.state}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.title}>{item.title}</Text>
-          </View>
-        )}
-        initialNumToRender={5}
-        keyExtractor={(item, index) => index.toString() + '_home'}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.getNewsHeadlines}
-          />
-        }/>
-    );
-  }
+  return (
+    <FlatList
+      style={{ backgroundColor: theme.color.light_grey }}
+      contentContainerStyle={{ paddingVertical: 5 }}
+      data={articles}
+      renderItem={({ item }) => (
+        <View style={styles.item}>
+          <Text style={styles.title}>{item.title}</Text>
+        </View>
+      )}
+      initialNumToRender={5}
+      keyExtractor={(item, index) => index.toString() + '_home'}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchNewsHeadlines}
+        />
+      }/>
+  );
 }
-
-function mapStateToProps(state) {
-  return {
-    isFetching: state.homeReducer.isFetching,
-    hasError: state.homeReducer.hasError,
-    errorMsg: state.homeReducer.errorMsg,
-    articles: state.homeReducer.articles,
-  }
-}
-
-export default connect(mapStateToProps, { getNewsHeadlines })(Home);
 
 const styles = StyleSheet.create({
   item: {
