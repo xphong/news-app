@@ -1,4 +1,4 @@
-import * as home from './constants';
+import * as appConstants from './constants';
 
 const initialState = {
   isFetching: true,
@@ -9,17 +9,17 @@ const initialState = {
 
 const homeReducer = (state = initialState, action) => {
   switch (action.type) {
-    case home.RETRIEVING_HEADLINES:{
+    case appConstants.RETRIEVING_HEADLINES:{
       const isFetching = (state.articles.length > 0) ? false : true;
 
       return {...state, isFetching, hasError:false};
     }
-    case home.HEADLINES_AVAILABLE:{
+    case appConstants.HEADLINES_AVAILABLE:{
       const { articles } = action.data;
 
       return {...state, isFetching:false, articles, hasError:false};
     }
-    case home.HEADLINES_ERROR:{
+    case appConstants.HEADLINES_ERROR:{
       const error = action.error;
 
       return {...state, isFetching:false, hasError:true, errorMsg:error};
